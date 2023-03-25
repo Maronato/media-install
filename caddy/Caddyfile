@@ -1,0 +1,17 @@
+# Configure dynamic DNS
+{
+	dynamic_dns {
+		provider cloudflare {$CLOUDFLARE_TOKEN}
+		domains {
+			{$DOMAIN} {$SUBDOMAIN}
+		}
+		check_interval 5m
+
+
+	}
+}
+
+# Register the media server entrypoint
+{$SUBDOMAIN}.{$DOMAIN} {
+	reverse_proxy {$TAILSCALE_IP}:{$TAILSCALE_PORT}
+}
