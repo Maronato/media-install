@@ -21,8 +21,6 @@ echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
 echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
 sudo sysctl -p /etc/sysctl.d/99-tailscale.conf
 
-# Enable tailscale
-sudo tailscale up --advertise-exit-node
 
 # Install caddy
 wget 'https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fcaddy-dns%2Fcloudflare&p=github.com%2Fmholt%2Fcaddy-dynamicdns&idempotency=95124409357890'
@@ -38,5 +36,25 @@ sudo groupadd --system caddy
 sudo useradd --system --gid caddy --create-home --home-dir /var/lib/caddy --shell /usr/sbin/nologin --comment "Caddy web server" caddy
 
 
+# Configure ufw
+sudo ufw allow 22
+sudo ufw allow 80
+sudo ufw allow 443
+sudo ufw allow in on tailscale0
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw enable
+
+
+# Enable tailscale
+sudo tailscale up --advertise-exit-node
+
 # Enable caddy
 sudo systemctl enable --now caddy
+
+
+# Set default shell to zsh
+chsh -s $(which zsh)
+
+# Change to zsh
+zsh
