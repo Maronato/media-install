@@ -13,7 +13,7 @@ sudo unattended-upgrade
 
 # Set up zsh
 sudo apt install zsh -y
-#sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # Install tailscale
 curl -fsSL https://tailscale.com/install.sh | sh
